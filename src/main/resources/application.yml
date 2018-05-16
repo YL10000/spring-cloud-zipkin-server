@@ -1,0 +1,38 @@
+server: 
+ port: 8769
+spring: 
+ application: 
+  name: zipkin-server
+ rabbitmq: #配置mq消息队列
+  host: localhost 
+  port: 5672 
+  username: guest 
+  password: guest
+ sleuth: 
+  enabled: false #表示当前程序不使用sleuth
+ datasource: #配置msyql 连接
+  schema[0]: classpath:/zipkin.sql #数据库创建脚本，可以到官网下载
+  url: jdbc:mysql://localhost:3306/zipkin?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false  
+  username: root
+  password: root
+  driver-class-name: com.mysql.jdbc.Driver 
+  initialize: true
+  continue-on-error: true
+zipkin: 
+ storage: 
+  type: mysql #mysql存储zipkin追踪信息
+eureka: 
+ client: 
+  serviceUrl: 
+   defaultZone: http://localhost:8761/eureka/ #注册服务器地址
+management: 
+ security: 
+  enabled: false #关闭验证
+info: #/info请求的显示信息
+ app: 
+  name: ${spring.application.name}
+  version: 1.0.0
+ build: 
+  artifactId: @project.artifactId@
+  version: @project.version@
+    
